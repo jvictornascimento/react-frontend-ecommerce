@@ -1,8 +1,22 @@
-function App() {
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements
+} from "react-router-dom";
+import RootLayout from "./component/commom/layout/RootLayout.jsx";
 
+function App() {
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path="/" element={<RootLayout/>}>
+
+        </Route>
+    )
+)
 
   return (
-    <div>Welcome to buynow.com</div>
+   <RouterProvider router={router}/>
   )
 }
 
