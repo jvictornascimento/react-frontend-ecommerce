@@ -1,20 +1,36 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Hero from "../hero/Hero.jsx";
 import Paginator from "../commom/Paginator.jsx";
 import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import ProductImage from "../utils/ProductImage.jsx";
+import {getDistinctProductByName} from "../services/ProductService.js";
+import {toast, ToastContainer} from "react-toastify";
 
 const Home = () => {
-    const [product, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [errorMessage,setErrorMessage] = useState(null);
 
 
     const [currentPage, setCurrentPage] = useState([]);
     const itemsPerPage = 10;
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const response = await  getDistinctProductByName();
+                setProducts(response.data);
 
+            }catch (error){
+                setErrorMessage(error.message)
+                toast.error(errorMessage)
+            }
+        };
+        getProducts();
+    }, []);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const indexOfLastProduct = currentPage + itemsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
     const currentProducts = filteredProducts.slice(
@@ -26,7 +42,8 @@ const Home = () => {
         <>
             <Hero/>
             <div className='d-flex flex-wrap justify-content-center p-5'>
-                {product.map((product) => (
+                <ToastContainer/>
+                {products && products.map((product) => (
                     <Card key={product.id} className='home-product-card'>
                         <Link to={"#"} className='link'>
                             <div className='image-container'>
