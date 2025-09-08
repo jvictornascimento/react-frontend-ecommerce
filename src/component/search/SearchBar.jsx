@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {getAllCategories} from "../../store/features/categorySlice.js";
 
 const SearchBar = ({value, onchange}) => {
+    const dispatch = useDispatch()
+    const categories = useSelector((state) => state.category.categories)
+
+    useEffect(() => {
+        dispatch(getAllCategories())
+    }, [dispatch]);
     return (
         <div className='search-bar input-group input-group-sm'>
             <select className='form-control-sm'>
-                <option value='all'>All</option>
-                <option value='all'>Tabs</option>
-                <option value='all'>Gadget</option>
+                <option value='all'>All Category</option>
+                {categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                        {category.name}
+                    </option>
+                    ))}
             </select>
             <input
                 type='text'
