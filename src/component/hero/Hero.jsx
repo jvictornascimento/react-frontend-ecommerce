@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import HeroSlider from "./HeroSlider.jsx";
 import SearchBar from "../search/SearchBar.jsx";
 import {useDispatch} from "react-redux";
-import {setSearchQuery} from "../../store/features/searchSlice";
+import {setSearchQuery, setSelectedCategory} from "../../store/features/searchSlice";
 
 const Hero = () => {
     const dispatch = useDispatch();
@@ -15,7 +15,9 @@ const Hero = () => {
             <HeroSlider setCurrentSlide={currentSlide}/>
             <div className='hero-content'>
                 <h1>Welcome to <span className='text-primary'>buyNow</span>.com</h1>
-                <SearchBar onchange={handleChange}/>
+                <SearchBar
+                    onchange={handleChange}
+                    onCategoryChange={(category) => dispatch(setSelectedCategory(category))}/>
                 <div className="home-button-container">
                     <a href="#" className='home-shop-button'>
                         Shop Now
