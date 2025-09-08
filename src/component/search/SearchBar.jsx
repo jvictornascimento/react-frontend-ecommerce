@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearcheBar = () => {
+const SearchBar = ({value, onchange}) => {
     return (
         <div className='search-bar input-group input-group-sm'>
             <select className='form-control-sm'>
@@ -8,12 +8,15 @@ const SearcheBar = () => {
                 <option value='all'>Tabs</option>
                 <option value='all'>Gadget</option>
             </select>
-            <input type='text'
-            className='form-control-sm'
-            placeholder='search for product(e.g. whatch...)'/>
+            <input
+                type='text'
+                value={value}
+                onChange={onchange}
+                className='form-control-sm'
+                placeholder='search for product(e.g. whatch...)'/>
             <button className='search-button'>Clear Filter</button>
         </div>
     );
 };
 
-export default SearcheBar;
+export default SearchBar;

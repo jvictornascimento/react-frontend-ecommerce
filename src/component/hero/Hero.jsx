@@ -1,15 +1,21 @@
 import React, {useState} from 'react';
 import HeroSlider from "./HeroSlider.jsx";
-import SearcheBar from "../search/SearcheBar.jsx";
+import SearchBar from "../search/SearchBar.jsx";
+import {useDispatch} from "react-redux";
+import {setSearchQuery} from "../../store/features/searchSlice";
 
 const Hero = () => {
+    const dispatch = useDispatch();
+    const handleChange = (e) => dispatch(setSearchQuery(e.target.value));
+
+
     const [currentSlide] = useState(0)
     return (
         <div className='hero'>
             <HeroSlider setCurrentSlide={currentSlide}/>
             <div className='hero-content'>
                 <h1>Welcome to <span className='text-primary'>buyNow</span>.com</h1>
-                <SearcheBar/>
+                <SearchBar onchange={handleChange}/>
                 <div className="home-button-container">
                     <a href="#" className='home-shop-button'>
                         Shop Now

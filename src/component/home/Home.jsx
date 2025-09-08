@@ -6,11 +6,13 @@ import {Link} from "react-router-dom";
 import ProductImage from "../utils/ProductImage.jsx";
 import {getDistinctProductByName} from "../services/ProductService.js";
 import {toast, ToastContainer} from "react-toastify";
+import {useSelector} from "react-redux";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [errorMessage,setErrorMessage] = useState(null);
+    const {searchQuery} = useSelector((state) => state.search)
 
 
     const [currentPage, setCurrentPage] = useState([]);
@@ -30,6 +32,14 @@ const Home = () => {
         getProducts();
     }, []);
 
+    useEffect(() => {
+        const results = products.filter((product) =>{
+            const matchQuery = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchQuery;
+        })
+        setFilteredProducts(results);
+    }, [searchQuery,products]);
+
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const indexOfLastProduct = currentPage + itemsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
@@ -43,7 +53,8 @@ const Home = () => {
             <Hero/>
             <div className='d-flex flex-wrap justify-content-center p-5'>
                 <ToastContainer/>
-                {products && products.map((product) => (
+                {currentProducts &&
+                    currentProducts.map((product) => (
                     <Card key={product.id} className='home-product-card'>
                         <Link to={"#"} className='link'>
                             <div className='image-container'>

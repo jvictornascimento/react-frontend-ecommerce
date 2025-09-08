@@ -8,7 +8,7 @@ const ProductImage = ({productId}) => {
         const fetchProductImage = async (id) => {
         try {
             const response = await fetch(
-                `http://localhost:9090/api/v1/images/download/${id}`
+                `http://localhost:9090/api/v1/images/image/download/${id}`
             );
             const blob = await response.blob();
             const render = new FileReader();
